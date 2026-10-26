@@ -1,0 +1,17 @@
+services:
+  - type: worker
+    name: palm-beach-commercial-leads
+    runtime: docker
+    plan: starter
+    autoDeployTrigger: off
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: PORTAL_CONFIG_JSON
+        sync: false
+      - key: POLL_INTERVAL_SECONDS
+        value: '21600'
+      - key: STATE_DIR
+        value: /tmp/lead-agent-state

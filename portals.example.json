@@ -1,0 +1,28 @@
+{
+  "deadline_horizon_days": 90,
+  "sources": [
+    {
+      "name": "code_enforcement",
+      "verified": false,
+      "url": "https://REPLACE_WITH_VERIFIED_PUBLIC_ENDPOINT",
+      "allowed_hosts": ["REPLACE_WITH_VERIFIED_HOST"],
+      "format": "json",
+      "items_key": "results",
+      "next_key": "next",
+      "request_delay_seconds": 5,
+      "fields": {"address": "address", "record_id": "id", "kind": "kind", "use": "use", "status": "status", "deadline": "deadline"}
+    },
+    {
+      "name": "building_permits",
+      "verified": false,
+      "url": "https://REPLACE_WITH_VERIFIED_PUBLIC_ENDPOINT",
+      "allowed_hosts": ["REPLACE_WITH_VERIFIED_HOST"],
+      "format": "html",
+      "container_selector": "REPLACE",
+      "row_selector": "REPLACE",
+      "next_selector": null,
+      "request_delay_seconds": 5,
+      "fields": {"address": ".address", "record_id": ".id", "kind": ".kind", "use": ".use", "status": ".status", "deadline": ".deadline"}
+    }
+  ]
+}

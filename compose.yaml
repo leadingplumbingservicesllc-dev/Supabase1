@@ -1,0 +1,27 @@
+services:
+  collector:
+    build: .
+    restart: unless-stopped
+    init: true
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    env_file: .env
+    environment:
+      PORTAL_CONFIG: /app/portals.json
+    volumes:
+      - ./portals.json:/app/portals.json:ro
+      - collector_state:/app/state
+    healthcheck:
+      test: [CMD, python, -c, "import json,datetime,pathlib,os; p=json.loads(pathlib.Path('/app/state/health.json').read_text()); age=(datetime.datetime.now(datetime.timezone.utc)-datetime.datetime.fromisoformat(p['finished_at'])).total_seconds(); assert p['sources_failed']==0 and age < int(os.getenv('POLL_INTERVAL_SECONDS','21600'))+900"]
+      interval: 5m
+      timeout: 10s
+      start_period: 10m
+      retries: 2
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '3'
+volumes:
+  collector_state:
